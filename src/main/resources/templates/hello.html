@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+
+    <style>
+        body {
+  padding: 25px;
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+}
+
+p {
+  font-size: 1.2em;
+  line-height: 1.5em;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
+form {
+  text-align: center;
+}
+
+input {
+  width: 15%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="submit"] {
+  background-color: #f00;
+  color: #fff;
+  cursor: pointer;
+}
+    </style>
+</head>
+
+<body >
+<h1>Welcome to the Company!!</h1>
+
+<hr>
+<!-- Display username and roles-->
+<p>
+    User: <span sec:authentication="principal.username"></span>
+    <br><br>
+    Role(s): <span sec:authentication="principal.authorities"></span>
+</p>
+<hr>
+<!-- Restricting content based on roles-->
+<div sec:authorize="hasRole('MANAGER')">
+    <a th:href="@{/leaders}" >Leaders Meeting</a>
+    (Only for Managers)
+</div>
+
+<br>
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/admins}" >CEOs Meeting</a>
+    (Only for Admins)
+</div>
+
+<hr>
+<form action="#" th:action="@{/logout}" method="POST">
+
+    <input class="btn btn-danger" type="submit" value="Logout">
+</form>
+</body>
+</html>
